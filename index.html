@@ -73,6 +73,7 @@
     </div>
     <script>
         const recaptchaBox = document.getElementById('recaptcha-box');
+        const checkbox = document.getElementById('recaptcha-checkbox');
         const gameArea = document.getElementById('game-area');
         let score = 0;
 
@@ -91,7 +92,7 @@
             recaptchaBox.style.top = `${randomY}px`;
         }
 
-        recaptchaBox.addEventListener('click', () => {
+        checkbox.addEventListener('click', () => {
             score++;
             alert(`You are a robot.`);
         });
