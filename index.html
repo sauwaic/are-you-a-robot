@@ -113,7 +113,7 @@
         checkbox.addEventListener('click', () => {
             level++;
             checkbox.checked = false;
-            alert(`Verification error. Try again.`);
+            alert(`Invalid verification. Try again.`);
             centerRecaptchaBox(); // Center the box at the beginning of each level
             updateSpeed();
         });
