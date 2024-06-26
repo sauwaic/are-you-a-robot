@@ -73,14 +73,16 @@
     </div>
     <script>
         const recaptchaBox = document.getElementById('recaptcha-box');
-        const checkbox = document.getElementById('recaptcha-checkbox');
+        const checkbox = document.querySelector('#recaptcha-checkbox input');
         const gameArea = document.getElementById('game-area');
-        let score = 0;
+        const boxWidth = recaptchaBox.offsetWidth;
+        const boxHeight = recaptchaBox.offsetHeight;
+        let level = 0;
+        let speed = 1000 / level;
+        let intervalId;
 
         function moveRecaptchaBox() {
             const gameAreaRect = gameArea.getBoundingClientRect();
-            const boxWidth = recaptchaBox.offsetWidth;
-            const boxHeight = recaptchaBox.offsetHeight;
 
             const maxX = gameAreaRect.width - boxWidth;
             const maxY = gameAreaRect.height - boxHeight;
@@ -92,13 +94,35 @@
             recaptchaBox.style.top = `${randomY}px`;
         }
 
+        function centerRecaptchaBox() {
+            const gameAreaRect = gameArea.getBoundingClientRect();
+
+            const centerX = (gameAreaRect.width - boxWidth) / 2;
+            const centerY = (gameAreaRect.height - boxHeight) / 2;
+
+            recaptchaBox.style.left = `${centerX}px`;
+            recaptchaBox.style.top = `${centerY}px`;
+        }
+
+        function updateSpeed() {
+            clearInterval(intervalId);
+            speed = 1000 / level;
+            intervalId = setInterval(moveRecaptchaBox, speed);
+        }
+
         checkbox.addEventListener('click', () => {
-            score++;
-            alert(`You are a robot.`);
+            level++;
+            checkbox.checked = false;
+            alert(`Verification error. Try again.`);
+            centerRecaptchaBox(); // Center the box at the beginning of each level
+            updateSpeed();
         });
 
-        // Move recaptcha box continuously
-        setInterval(moveRecaptchaBox, 500); // Change position every 0.5 second
+        // Initialize the interval for moving the recaptcha box
+        intervalId = setInterval(moveRecaptchaBox, speed);
+
+        // Center the box at the beginning
+        centerRecaptchaBox();
     </script>
 </body>
 </html>
